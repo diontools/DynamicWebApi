@@ -19,7 +19,7 @@ namespace SampleApp
         {
             bool useWeb = (args.FirstOrDefault() ?? "1") != "0";
             string baseUrl = args.Skip(1).FirstOrDefault() ?? "http://localhost:58080";
-            bool outputAssembly = (args.Skip(2).FirstOrDefault() ?? "1") != "0";
+            bool outputAssembly = (args.Skip(2).FirstOrDefault() ?? "0") != "0";
 
             Console.WriteLine("Init useWeb:" + useWeb + " url:" + baseUrl);
 
