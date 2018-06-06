@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="AccessModelAttribute.cs" />
     <Compile Include="Client\AccessorFactory.cs" />
+    <Compile Include="Client\HttpClientExtensions.cs" />
     <Compile Include="Client\LocalApiBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Server\AccessModel.cs" />

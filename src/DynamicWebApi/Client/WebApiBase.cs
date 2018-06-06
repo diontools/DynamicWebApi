@@ -28,7 +28,7 @@ namespace DynamicWebApi.Client
 
         public JsonSerializerSettings ExceptionJsonSerializerSettings { get; set; }
 
-        public static async Task<TReturn> PostAsync<TArgs, TReturn>(WebApiBase instance, string url, TArgs args)
+        public static async Task<HttpResponseMessage> PostAsync<TArgs>(WebApiBase instance, string url, TArgs args)
         {
             var json = JsonConvert.SerializeObject(args);
             var result = await instance.HttpClient.PostAsync(url, new StringContent(json));
@@ -51,21 +51,22 @@ namespace DynamicWebApi.Client
             }
 
             result.EnsureSuccessStatusCode();
-            var str = await result.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<TReturn>(str);
+            return result;
+            //var str = await result.Content.ReadAsStringAsync();
+            //return JsonConvert.DeserializeObject<TReturn>(str);
         }
 
-        public static TReturn Post<TArgs, TReturn>(WebApiBase instance, string url, TArgs args)
-        {
-            try
-            {
-                return PostAsync<TArgs, TReturn>(instance, url, args).Result;
-            }
-            catch (AggregateException ex)
-            {
-                if (ex.InnerExceptions.Count == 1) throw ex.InnerException;
-                throw;
-            }
-        }
+        //public static TReturn Post<TArgs, TReturn>(WebApiBase instance, string url, TArgs args)
+        //{
+        //    try
+        //    {
+        //        return PostAsync<TArgs, TReturn>(instance, url, args).Result;
+        //    }
+        //    catch (AggregateException ex)
+        //    {
+        //        if (ex.InnerExceptions.Count == 1) throw ex.InnerException;
+        //        throw;
+        //    }
+        //}
     }
 }

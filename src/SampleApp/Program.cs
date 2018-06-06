@@ -31,27 +31,25 @@ namespace SampleApp
 
             Console.WriteLine("Start");
             
-            sample.Nope();
+            await sample.Nope();
 
             {
                 var sw = Stopwatch.StartNew();
                 const int n = 100;
                 for (int i = 0; i < n; i++)
                 {
-                    sample.Nope();
+                    await sample.Nope();
                 }
                 sw.Stop();
                 Console.WriteLine("nope total:{0} ave:{1}", sw.Elapsed, new TimeSpan(sw.Elapsed.Ticks / n));
             }
 
-            var data = sample.GetMulti(10000, 2, "abc");
+            var data = await sample.GetMulti(10000, 2, "abc");
             Console.WriteLine(data);
-            Console.WriteLine(sample.Test());
-            Console.WriteLine(await sample.GetValueAsync(1));
-            Console.WriteLine(await sample.TestAsync());
-            Console.WriteLine(sample.GetSample(1).Value);
-            Console.WriteLine(sample.GetSample2(new SampleData { Value = 1 }).Value);
-            Console.WriteLine(sample.GetNull(null));
+            Console.WriteLine(await sample.Test());
+            Console.WriteLine(await sample.GetSample(1));
+            Console.WriteLine(await sample.GetSample2(new SampleData { Value = 1 }));
+            Console.WriteLine(await sample.GetNull(null));
 
             for (int i = 0; i < 5; i++)
             {

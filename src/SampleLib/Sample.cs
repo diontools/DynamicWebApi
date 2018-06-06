@@ -16,18 +16,16 @@ namespace SampleLib
     [AccessModel(typeof(Sample), "Sample1", JsonConverters = new Type[] { typeof(OracleErrorCollectionConverter) })]
     public interface ISample
     {
-        SampleData GetSample(int value);
-        SampleData GetSample2(SampleData data);
-        SampleData GetNull(SampleData data);
-        int GetValue(int value);
-        Task<int> GetValueAsync(int value);
-        string GetMulti(int a, int b, string suf);
-        string Test();
-        Task<string> TestAsync();
+        Task<SampleData> GetSample(int value);
+        Task<SampleData> GetSample2(SampleData data);
+        Task<SampleData> GetNull(SampleData data);
+        Task<int> GetValue(int value);
+        Task<string> GetMulti(int a, int b, string suf);
+        Task<string> Test();
         Task<int> Increment();
         Task<ContainerInfo[]> GetContainers();
         Task<int> Exception();
-        object Nope();
+        Task<object> Nope();
         Task<object> Delay(int delay);
     }
 
@@ -71,33 +69,28 @@ namespace SampleLib
             }
         }
 
-        public string GetMulti(int a, int b, string suf)
+        public Task<string> GetMulti(int a, int b, string suf)
         {
-            return a * b + suf;
+            return Task.FromResult(a * b + suf);
         }
 
-        public SampleData GetNull(SampleData data)
+        public Task<SampleData> GetNull(SampleData data)
         {
             Debug.WriteLine("isnull: " + (data == null));
-            return null;
+            return Task.FromResult((SampleData)null);
         }
 
-        public SampleData GetSample(int value)
+        public Task<SampleData> GetSample(int value)
         {
-            return new SampleData() { Value = value + 1 };
+            return Task.FromResult(new SampleData() { Value = value + 1 });
         }
 
-        public SampleData GetSample2(SampleData data)
+        public Task<SampleData> GetSample2(SampleData data)
         {
-            return new SampleData() { Value = data.Value + 1 };
+            return Task.FromResult(new SampleData() { Value = data.Value + 1 });
         }
 
-        public int GetValue(int value)
-        {
-            return value + 1;
-        }
-
-        public Task<int> GetValueAsync(int value)
+        public Task<int> GetValue(int value)
         {
             return Task.FromResult(value + 1);
         }
@@ -107,14 +100,9 @@ namespace SampleLib
             return Task.FromResult(Interlocked.Increment(ref this._value));
         }
 
-        public string Test()
+        public Task<string> Test()
         {
-            return "sync-test";
-        }
-
-        public Task<string> TestAsync()
-        {
-            return Task.FromResult("async-test");
+            return Task.FromResult("sync-test");
         }
 
         public Task<int> Exception()
@@ -136,9 +124,9 @@ namespace SampleLib
             throw new InvalidOperationException("inner-exception");
         }
 
-        public object Nope()
+        public Task<object> Nope()
         {
-            return null;
+            return Task.FromResult((object)null);
         }
 
         public Task<object> Delay(int delay)
